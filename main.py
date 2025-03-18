@@ -1,7 +1,12 @@
+# store and manipulate data 
 import pandas as pd 
-import re
+
+# plotting
 from wordcloud import STOPWORDS, WordCloud
 import matplotlib.pyplot as plt
+
+# text clean up 
+import re
 
 df = pd.read_excel('Spark! Civic Tech Expo Feedback Form for Students (Responses).xlsx')
 
@@ -60,6 +65,19 @@ def avg_rating_by_category(df):
 
 def word_cloud(df,col):
     '''creates a word cloud of the feedback comments'''
+    text = clean_text(df,col)
+    
+    # make the wordclous 
+    wordcloud = WordCloud(width = 800, height = 800, background_color='white', max_words=20).generate(text)
+
+    plt.figure(figsize = (8, 8))
+    plt.imshow(wordcloud)
+    plt.axis("off")
+    plt.title(col)
+    plt.show()
+
+def clean_text(df,col):
+    '''clean text'''
     dummy = df
     stopwords = set(STOPWORDS)
     otherwords = ['well','good','great','like','really', 'getting', 'lot', 'new', 'things', 'thing', 'time', 'fun', 
@@ -71,11 +89,11 @@ def word_cloud(df,col):
                   'participate', 'participated', 'participating', 'participation', 'participate', 'participated', 'participating', 
                   'participation', 'participate', 'participated', 'participating', 'participation', 'participate', 'participated', 
                   'participating', 'participation', 'meeting', 'something','think','went','loved','work','overall','helpful', 'didn',
-                  'felt', 'bit', 'better', 'us', 'enough', 'wish', 'maybe', 't', 'less', 'given','know']
+                  'felt', 'bit', 'better', 'us', 'enough', 'wish', 'maybe', 't', 'less', 'given','know', 'yes', 'definitley', 'liked',
+                  's','need','many']
     for word in otherwords:
         stopwords.add(word)
     text = ''
-    # clean the text
     for review in dummy[col]: 
         if pd.isna(review):
             continue
@@ -88,18 +106,13 @@ def word_cloud(df,col):
         
         # add it to the text
         text += review + ' '
-    
-    # make the wordclous 
-    wordcloud = WordCloud(width = 800, height = 800, background_color='white', max_words=20).generate(text)
+    return text
 
-    plt.figure(figsize = (8, 8))
-    plt.imshow(wordcloud)
-    plt.axis("off")
-    plt.title(col)
-    plt.show()
+    
 
 # print(motivation_analysis(df))
 # print(motivation_satisfaction_trend(df))
 # print(avg_rating_by_category(df))
 # word_cloud(df,'What went well?\nWhat were your favorite parts about this hackathon?')
-word_cloud(df,"What didn't go well? How can we improve your hackathon experience? \nWhat changes would have made the hackathon and/or your project better? Was there anything that you would have liked to see?")
+# word_cloud(df,"What didn't go well? How can we improve your hackathon experience? \nWhat changes would have made the hackathon and/or your project better? Was there anything that you would have liked to see?")
+word_cloud(df,"Please provide detailed feedback on your thoughts of the venue?\nFor context, because of the growth in the hackathon, we are considering moving to a different venue - a larger room that would allow us to keep everyone in one space. We want your thoughts on what worked/ didn't work about the current venue and any recommended changes you'd suggest?")
