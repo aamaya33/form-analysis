@@ -108,11 +108,24 @@ def clean_text(df,col):
         text += review + ' '
     return text
 
-    
+def primary_goal_expo_count(df):
+    '''returns the count of primary reasons why people came to the hackathon'''
 
+    return df['How would you describe your primary goal in attending the Opportunity Expo?'].value_counts()
+
+def find_avg_rating(df,col):
+    return df[col].mean()
+    
+# print(first_returning(df))
 # print(motivation_analysis(df))
 # print(motivation_satisfaction_trend(df))
 # print(avg_rating_by_category(df))
 # word_cloud(df,'What went well?\nWhat were your favorite parts about this hackathon?')
 # word_cloud(df,"What didn't go well? How can we improve your hackathon experience? \nWhat changes would have made the hackathon and/or your project better? Was there anything that you would have liked to see?")
-word_cloud(df,"Please provide detailed feedback on your thoughts of the venue?\nFor context, because of the growth in the hackathon, we are considering moving to a different venue - a larger room that would allow us to keep everyone in one space. We want your thoughts on what worked/ didn't work about the current venue and any recommended changes you'd suggest?")
+# word_cloud(df,"Please provide detailed feedback on your thoughts of the venue?\nFor context, because of the growth in the hackathon, we are considering moving to a different venue - a larger room that would allow us to keep everyone in one space. We want your thoughts on what worked/ didn't work about the current venue and any recommended changes you'd suggest?")
+# print(primary_goal_expo_count(df))
+print(df["Were there any companies or organizations you wished were present but weren't?"].value_counts())
+print(df["Would you want to see the Opportunity Expo next year?"].value_counts())
+print(df["This hackathon was targeting individuals who were interested in civci tech. How interested are you in a career pathway in civic tech?"].value_counts())
+# print(find_avg_rating(df,'How satisfied were you with the variety of companies present?'))
+# print(find_avg_rating(df,'How helpful were the representatives in answering your questions?'))
